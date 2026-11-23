@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnóstico L.O.J.A. 360º</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: acolhedor e simples, como uma conversa com a arquiteta — uma pergunta por vez
+   IDEA: uma ficha de avaliação da loja que, no fim, vira uma mandala
+   PICTURE: a mandala de 8 pétalas, uma por área da loja, colorida pelo estado
+   COLOUR and TYPE: roxo Arqaçaí #4a1f5c dominante, lilás de apoio, semáforo só no resultado; Poppins + Nunito Sans
+   LAYOUT: coluna única calma, cartões grandes para tocar, barra de progresso fixa */
+:root{color-scheme:light dark;
+--roxo:#4a1f5c;--roxo2:light-dark(#6b3a80,#c9a6d8);--lil:light-dark(#f4edf7,#2a1c31);--lil2:light-dark(#e4d6ea,#3e2a48);
+--bg:light-dark(#fbf8fc,#150e18);--card:light-dark(#fff,#1f1524);--ink:light-dark(#2a2230,#efe7f2);--mut:light-dark(#76687c,#b3a5b9);
+--crit:#d64545;--aten:#e8a317;--bom:#2f9e5b;--critT:light-dark(#f6d2d2,#4a2024);--atenT:light-dark(#fae6b8,#463614);--bomT:light-dark(#cfeedb,#173a25)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Nunito Sans",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Poppins,system-ui,sans-serif;line-height:1.12;text-wrap:balance;margin:0 0 .4em}
+h1{font-size:clamp(30px,6vw,46px)}h2{font-size:clamp(22px,4.4vw,30px)}h3{font-size:18px}
+header.top{background:var(--roxo);color:#fff;padding:14px max(5vw,16px);display:flex;align-items:center;gap:14px}
+header.top img{height:46px}header.top b{font-family:Poppins;font-size:15px;font-weight:600}header.top span{display:block;font-size:13px;opacity:.85}
+.wrap{max-width:720px;margin:0 auto;padding:24px max(5vw,16px) 120px}
+.prog{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px max(5vw,16px);border-bottom:1px solid var(--lil2)}
+.prog .bar{height:8px;background:var(--lil2);border-radius:9px;overflow:hidden}.prog .bar i{display:block;height:100%;background:var(--roxo2);transition:width .3s}
+.prog small{display:flex;justify-content:space-between;color:var(--mut);font-size:13px;margin-top:5px}
+.area{display:inline-block;background:var(--lil);color:var(--roxo2);font-weight:700;font-size:14px;padding:4px 12px;border-radius:20px;margin-bottom:12px}
+.dica{background:var(--lil);border-radius:12px;padding:10px 14px;color:var(--mut);font-size:15px;margin:6px 0 18px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;width:100%;min-height:58px;padding:14px 16px;border:2px solid var(--lil2);border-radius:14px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--roxo2)}.opt:focus-visible{outline:3px solid var(--roxo2);outline-offset:2px}
+.opt.on{border-color:var(--roxo2);background:var(--lil)}
+.opt .dot{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--roxo2)}.opt.on .dot{background:var(--roxo2);box-shadow:inset 0 0 0 4px var(--card)}
+.opt.sec{min-height:48px;border-style:dashed;color:var(--mut);font-size:15px}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--lil2);padding:12px max(5vw,16px);display:flex;gap:10px;justify-content:center;z-index:6}
+.nav .in{max-width:720px;width:100%;display:flex;gap:10px}
+.btn{min-height:50px;padding:0 22px;border-radius:12px;border:0;font:700 16px "Nunito Sans",sans-serif;cursor:pointer;background:var(--roxo);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}.btn.gh{background:transparent;color:var(--roxo2);border:2px solid var(--lil2)}.btn.full{flex:1}
+.btn:focus-visible{outline:3px solid var(--roxo2);outline-offset:2px}
+label.f{display:block;font-weight:700;margin:16px 0 6px}
+input[type=text],input[type=tel],textarea,select{width:100%;font:16px "Nunito Sans",sans-serif;padding:13px 14px;border:2px solid var(--lil2);border-radius:12px;background:var(--card);color:var(--ink)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--roxo2)}
+textarea{min-height:110px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips .opt{width:auto;min-height:46px;padding:8px 14px}
+.intro li{margin:6px 0}.lead{font-size:18px;color:var(--mut)}
+.fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.foto{border:2px dashed var(--lil2);border-radius:12px;padding:10px;text-align:center;font-size:14px;cursor:pointer;background:var(--card);min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.foto img{width:100%;height:90px;object-fit:cover;border-radius:8px}.foto input{display:none}
+.fig{position:relative;width:100%;max-width:560px;aspect-ratio:1;margin:8px auto}.fig svg{position:absolute;inset:0;width:100%;height:100%}
+.leg{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:15px;margin:6px 0 22px}.leg i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:6px;vertical-align:-2px}
+.cards{display:grid;gap:12px}
+.ac{background:var(--card);border-radius:14px;padding:14px 16px;border:1px solid var(--lil2);border-left:6px solid var(--c)}
+.ac .h{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.ac .n{font:700 22px Poppins;color:var(--c);white-space:nowrap}
+.ac p{margin:4px 0 0;font-size:15px;color:var(--mut)}.ac .tag{font-size:13px;font-weight:700;color:var(--c)}
+.prio{background:var(--roxo);color:#fff;border-radius:16px;padding:18px 20px;margin:22px 0}.prio ol{margin:8px 0 0;padding-left:22px}.prio li{margin:6px 0}
+.resp{font-size:15px}.resp div{padding:8px 0;border-bottom:1px solid var(--lil2)}.resp b{display:block}
+.acts{display:grid;gap:10px;margin-top:22px}.acts .btn{width:100%}
+.msg{font-size:14px;color:var(--mut);text-align:center;min-height:20px}
+.envio{background:var(--card);border:2px solid var(--lil2);border-radius:16px;padding:18px}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.seg .opt{min-height:50px;padding:8px 10px;font-size:15px;justify-content:center}
+@media(max-width:420px){.seg{grid-template-columns:1fr}.seg .opt{justify-content:flex-start}}
+.passos ol{margin:14px 0 0;padding-left:24px}.passos li{margin:10px 0;padding-left:4px}
+.ajuda{margin-top:16px;background:var(--lil);border-radius:12px;padding:12px 14px;font-size:15px}
+.hide{display:none!important}
+@media print{.prog,.nav,.acts,.noprint,header.top{display:none!important}body{background:#fff;color:#2a2230}.wrap{padding:0}.ac,.prio{break-inside:avoid}details{display:block}details>*{display:block}.resp{font-size:11pt}.printhead{display:flex!important}}
+.printhead{display:none;background:#4a1f5c;color:#fff;border-radius:10px;padding:12px 18px;align-items:center;gap:16px;margin-bottom:14px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.printhead img{height:50px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><img src="data:image/png;base64,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" alt="Arqaçaí"><div><b>Mentoria Método L.O.J.A. 360º</b><span>Diagnóstico inicial da sua loja</span></div></header>
+<div class="prog hide" id="prog"><div class="bar"><i id="pbar"></i></div><small><span id="ptxt"></span><span id="parea"></span></small></div>
+<main class="wrap" id="app"></main>
+<div class="nav hide" id="nav"><div class="in"><button class="btn gh" id="bBack" type="button">Voltar</button><button class="btn full" id="bNext" type="button">Próxima</button></div></div>
+
+<script>
+{
+const LOGO="data:image/png;base64,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";
+const ICON={clip:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="vertical-align:-3px"><path d="M21 11.5l-8.6 8.6a5 5 0 01-7.1-7.1l8.6-8.6a3.3 3.3 0 014.7 4.7l-8.6 8.6a1.7 1.7 0 01-2.4-2.4l7.9-7.9"/></svg>',share:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M12 3v12M7 8l5-5 5 5M5 12v8h14v-8"/></svg>'};
+const AREAS=[
+ {id:"fluxo",nome:"Caminho do cliente",enc:"Encontro 1 · Layout e fluxo"},
+ {id:"oper",nome:"Operação e equipe",enc:"Encontro 1 · Layout e fluxo"},
+ {id:"freezer",nome:"Freezers e temperatura",enc:"Encontro 2 · Equipamentos"},
+ {id:"expo",nome:"Exposição dos produtos",enc:"Encontro 2 · Equipamentos"},
+ {id:"marca",nome:"Identidade da marca",enc:"Encontro 3 · Marca e cores"},
+ {id:"cores",nome:"Cores da loja",enc:"Encontro 3 · Marca e cores"},
+ {id:"luz",nome:"Iluminação",enc:"Encontro 4 · Iluminação e materiais"},
+ {id:"mat",nome:"Fachada, conforto e materiais",enc:"Encontro 4 · Iluminação e materiais"}];
+const NA="Não se aplica à minha loja", NS="Não sei responder";
+const Q=[
+ ["fluxo","Quando o cliente entra pela primeira vez, ele sabe para onde ir sem ninguém explicar?","Pense em alguém que nunca foi à sua loja.",[["Sim, ele entende sozinho",100],["Às vezes fica perdido",50],["Quase sempre precisa perguntar",0]]],
+ ["fluxo","No self-service, o cliente segue um caminho em sequência, sem voltar?","O caminho ideal é em linha: pega o copo → sorvete ou açaí → acompanhamentos → balança → caixa.",[["Sim, é tudo em sequência",100],["Mais ou menos, tem algumas idas e voltas",50],["Não, ele cruza a loja ou volta no caminho",0],[NA,null]]],
+ ["fluxo","Em horário de movimento, junta gente na frente dos freezers ou da balança?","",[["Não, flui bem",100],["Às vezes junta",50],["Sempre junta, e já vi cliente desistir de entrar",0]]],
+ ["fluxo","Quem pede no balcão (taça, milkshake, cardápio) usa a mesma fila de quem monta o self-service?","",[["Não, são filas ou caixas separados",100],["Sim, mas quase nunca atrapalha",60],["Sim, e embola tudo",0],[NA+" (só vendo de um jeito)",null]]],
+ ["fluxo","O caixa fica no final do caminho, perto da saída?","",[["Sim, no final",100],["Fica no meio ou no começo do caminho",40],[NS,"ns"]]],
+ ["fluxo","Por onde o motoboy ou entregador retira os pedidos?","",[["Por uma entrada ou janela separada, sem entrar no salão",100],["Entra pelo salão e espera num cantinho",50],["Entra pelo salão e passa pelo atendimento ou cozinha",0],[NA+" (não tenho delivery)",null]]],
+ ["oper","A cozinha ou área de preparo fica perto do balcão e do caixa?","",[["Sim, ao lado ou com janela de passagem",100],["Perto, mas precisa dar a volta",50],["Longe, o funcionário atravessa o salão",0],[NA+" (não tenho cozinha)",null]]],
+ ["oper","O funcionário consegue repor freezers e acompanhamentos sem passar pelo meio dos clientes?","",[["Sim, repõe por trás ou pelo fundo",100],["Às vezes precisa passar pelos clientes",50],["Não, sempre passa pelo meio dos clientes",0]]],
+ ["oper","Em dia cheio, sua equipe dá conta do atendimento?","",[["Sim, tranquilo",100],["Aperta, mas dá conta",50],["Não, falta gente ou um atrapalha o outro",0]]],
+ ["oper","Cada funcionário sabe exatamente qual é a sua função e o seu lugar no turno?","Exemplo: um no caixa, um repondo, um na cozinha.",[["Sim, está tudo combinado",100],["Mais ou menos, todo mundo faz um pouco de tudo",50],["Não, é cada dia de um jeito",0]]],
+ ["freezer","Açaí e sorvete ficam no mesmo freezer?","Açaí e sorvete precisam de temperaturas diferentes.",[["Não, cada um tem o seu freezer",100],["Sim, ficam juntos",0],[NA+" (vendo só um dos dois)",null]]],
+ ["freezer","Na hora de servir, como fica o produto?","",[["No ponto, cremoso e fácil de servir",100],["Às vezes duro ou mole demais",50],["Muitas vezes o açaí fica duro ou o sorvete derrete",0]]],
+ ["freezer","O freezer em que você serve tem termostato digital, aquele visor com o número da temperatura?","",[["Tem, e sei em qual temperatura deixar",100],["Tem visor, mas não sei em quanto deixar",50],["Não tem",20],[NS,"ns"]]],
+ ["freezer","Você tem freezer suficiente para o seu cardápio?","",[["Sim, sobra espaço",100],["Está no limite",60],["Não, já tirei sabores por falta de espaço",0]]],
+ ["expo","Como o sorvete ou o açaí fica exposto para o cliente?","Cubas são as vasilhas de inox que ficam encaixadas no freezer.",[["Em cubas, sempre cheias e bonitas",100],["Em caixas ou potes",50],["Fica bagunçado ou com cara de vazio",20]]],
+ ["expo","Onde ficam frutas, mousses e outros acompanhamentos gelados?","",[["Num refrigerador próprio, perto da bancada",100],["Na geladeira comum, longe da bancada",40],["Em cima da bancada, sem refrigeração",0],[NA,null]]],
+ ["expo","Os acompanhamentos estão organizados, com nome e fáceis de alcançar?","",[["Sim, tudo organizado e identificado",100],["Uma parte sim",50],["Não",0]]],
+ ["expo","Perto do caixa, tem produtos para compra por impulso?","Exemplo: potes para levar, picolés, granola, balas.",[["Sim, bem expostos",100],["Pouca coisa",50],["Não tem nada",0]]],
+ ["marca","Sua loja tem logo?","",[["Sim, feita por um designer",100],["Sim, eu fiz ou peguei pronta",50],["Não tem logo",0]]],
+ ["marca","A sua marca tem cores oficiais, que se repetem em tudo?","",[["Sim, uso sempre as mesmas",100],["Mais ou menos",50],["Não tenho cores definidas",0]]],
+ ["marca","Copos, embalagens, cardápio e Instagram seguem o mesmo estilo e as mesmas cores?","",[["Sim, tudo combina",100],["Uma parte combina",50],["Cada um é de um jeito",0]]],
+ ["marca","Você consegue dizer em uma palavra o que a sua marca quer transmitir?","Exemplos: divertida, natural, sofisticada, infantil, artesanal.",[["Sim, sei bem",100],["Tenho uma ideia",50],["Nunca pensei nisso",0]]],
+ ["cores","Como as cores da loja foram escolhidas?","",[["Pensando na marca e no público",100],["Porque eu gostava delas",40],["Já estava assim ou foi sem pensar muito",20]]],
+ ["cores","As cores das paredes combinam com a logo e as embalagens?","",[["Sim",100],["Mais ou menos",50],["Não",0],[NS,"ns"]]],
+ ["cores","Olhando a loja como um todo, como estão as cores?","",[["Poucas cores fortes, o resto neutro",100],["Tudo branco ou neutro, sem a cor da marca",40],["Muitas cores fortes misturadas",30]]],
+ ["cores","Quando você tira foto da loja, ela sai bonita?","",[["Sim, clientes até tiram foto lá",100],["Fica normal",50],["Não gosto de como sai",0]]],
+ ["luz","Como é a luz do salão?","Luz amarela parece luz de casa. Luz branca parece luz de farmácia.",[["Amarela, de luz quente",100],["Uma mistura de branca e amarela",40],["Branca, de luz fria",20],[NS,"ns"]]],
+ ["luz","Os freezers e a vitrine têm uma luz que ilumina o produto?","Exemplo: fita de LED dentro do freezer ou spot apontado para ele.",[["Sim",100],["Não",0]]],
+ ["luz","À noite, a fachada fica iluminada e chama a atenção de quem passa?","",[["Sim",100],["Mais ou menos",50],["Não, fica escura",0],[NA+" (só abro de dia)",null]]],
+ ["luz","Tem algum canto da loja muito escuro, ou uma luz que incomoda os olhos?","",[["Não",100],["Um pouco",50],["Sim",0]]],
+ ["mat","Passando na rua, dá para saber de longe que ali é uma sorveteria ou açaiteria?","",[["Sim, de longe",100],["Só quando chega perto",50],["Não dá para saber",0]]],
+ ["mat","As mesas e os assentos são confortáveis e do tamanho certo?","",[["Sim",100],["Algumas mesas são pequenas ou apertadas",50],["Os clientes reclamam ou comem em pé",0],[NA+" (não tenho mesas)",null]]],
+ ["mat","O piso e as bancadas são fáceis de limpar e estão bem conservados?","",[["Sim",100],["Têm alguns desgastes",50],["Estão muito desgastados ou difíceis de limpar",0]]],
+ ["mat","Os móveis e balcões de marcenaria estão em bom estado, sem estufar ou descascar?","",[["Sim",100],["Uma parte está gasta",50],["Não, estão bem estragados",0],[NA+" (não tenho marcenaria)",null]]]
+].map((x,i)=>({i,a:x[0],q:x[1],d:x[2],o:x[3]}));
+const FOTOS=["Fachada","Entrada","Salão","Freezers","Balcão e caixa","Cozinha","Planta ou desenho da loja"];
+const PERFIL={nome:"",loja:"",cidade:"",wpp:"",tipo:"",modelo:"",situacao:"",tam:"",func:"",prod:[]};
+let S={step:0,p:{...PERFIL},r:{},ab:{prob:"",quer:""}};
+const fotos={};
+try{const s=JSON.parse(localStorage.getItem("diag360")||"null");if(s&&s.p)S=Object.assign(S,s)}catch(e){}
+const save=()=>{try{localStorage.setItem("diag360",JSON.stringify(S))}catch(e){}};
+const app=document.getElementById("app"),nav=document.getElementById("nav"),prog=document.getElementById("prog");
+const bN=document.getElementById("bNext"),bB=document.getElementById("bBack");
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const areaOf=id=>AREAS.find(a=>a.id===id);
+
+function render(){
+ const st=S.step;save();window.scrollTo(0,0);
+ prog.classList.toggle("hide",st===0||st>Q.length+2);nav.classList.toggle("hide",st===0||st>Q.length+2);
+ if(st>0&&st<=Q.length+2){document.getElementById("pbar").style.width=(st/(Q.length+2)*100)+"%";
+  document.getElementById("ptxt").textContent=st===1?"Sobre você":(st<=Q.length+1?`Pergunta ${st-1} de ${Q.length}`:"Para terminar");
+  document.getElementById("parea").textContent=st>1&&st<=Q.length+1?areaOf(Q[st-2].a).nome:"";}
+ if(st===0)return intro();
+ if(st===1)return perfil();
+ if(st<=Q.length+1)return pergunta(Q[st-2]);
+ if(st===Q.length+2)return abertas();
+ return resultado();
+}
+function intro(){
+ app.innerHTML=`<h1>Vamos conhecer a sua loja</h1>
+ <p class="lead">Antes do nosso primeiro encontro ao vivo, responda este diagnóstico. No final, você recebe a <b>mandala da sua loja</b>: onde está bom, onde precisa de atenção e onde está crítico.</p>
+ <ul class="intro"><li>São ${Q.length} perguntas rápidas, uma por vez. É só tocar na resposta.</li><li>Leva cerca de 15 minutos. Se precisar parar, suas respostas ficam salvas neste aparelho.</li><li>Não existe resposta certa ou errada. Responda como a loja está <b>hoje</b>. Se a loja ainda não abriu, responda pensando no que você já planejou.</li><li>Se não souber, tudo bem: escolha "Não sei responder". Isso também nos ajuda.</li></ul>
+ <button class="btn full" id="go" type="button" style="width:100%;margin-top:14px">${Object.keys(S.r).length?"Continuar de onde parei":"Começar o diagnóstico"}</button>
+ ${Object.keys(S.r).length?'<button class="btn gh" id="reset" type="button" style="width:100%;margin-top:10px">Começar do zero</button>':""}`;
+ document.getElementById("go").onclick=()=>{S.step=Object.keys(S.r).length?Math.min(Object.keys(S.r).length+2,Q.length+2):1;render()};
+ const r=document.getElementById("reset");if(r)r.onclick=()=>{S={step:1,p:{...PERFIL},r:{},ab:{prob:"",quer:""}};render()};
+}
+const chipSet=(key,vals,multi)=>`<div class="chips" data-k="${key}">${vals.map(v=>`<button type="button" class="opt ${multi?(S.p[key].includes(v)?"on":""):(S.p[key]===v?"on":"")}" data-v="${esc(v)}"><span class="dot"></span>${esc(v)}</button>`).join("")}</div>`;
+function perfil(){
+ const p=S.p;
+ app.innerHTML=`<span class="area">Sobre você e a sua loja</span><h2>Primeiro, conte quem é você</h2>
+ <label class="f" for="nome">Seu nome</label><input type="text" id="nome" value="${esc(p.nome)}" autocomplete="name">
+ <label class="f" for="loja">Nome da loja</label><input type="text" id="loja" value="${esc(p.loja)}">
+ <label class="f" for="cidade">Cidade e estado</label><input type="text" id="cidade" value="${esc(p.cidade)}" placeholder="Ex.: Vitória da Conquista - BA">
+ <label class="f" for="wpp">Seu WhatsApp</label><input type="tel" id="wpp" value="${esc(p.wpp)}" autocomplete="tel">
+ <label class="f">A sua loja é</label>${chipSet("tipo",["Sorveteria","Açaiteria","Sorveteria e açaiteria","Gelateria"])}
+ <label class="f">Como o cliente compra</label>${chipSet("modelo",["Self-service (ele mesmo monta)","Balcão (a equipe serve)","Os dois"])}
+ <label class="f">Situação da loja</label>${chipSet("situacao",["Funcionando","Em reforma","Ainda vai abrir"])}
+ <label class="f">Tamanho aproximado</label>${chipSet("tam",["Até 30 m²","30 a 60 m²","60 a 100 m²","Mais de 100 m²","Não sei"])}
+ <label class="f">Funcionários por turno, contando você</label>${chipSet("func",["1","2","3","4","5 ou mais"])}
+ <label class="f">O que você vende (pode marcar vários)</label>${chipSet("prod",["Sorvete de massa","Açaí","Sorvete de máquina","Milkshake","Picolé","Taças e sobremesas","Delivery","Lanches ou outros"],true)}`;
+ ["nome","loja","cidade","wpp"].forEach(k=>document.getElementById(k).oninput=e=>{S.p[k]=e.target.value;check()});
+ app.querySelectorAll(".chips").forEach(c=>c.onclick=e=>{const b=e.target.closest(".opt");if(!b)return;const k=c.dataset.k,v=b.dataset.v;
+  if(Array.isArray(S.p[k])){S.p[k]=S.p[k].includes(v)?S.p[k].filter(x=>x!==v):[...S.p[k],v];b.classList.toggle("on")}
+  else{S.p[k]=v;c.querySelectorAll(".opt").forEach(o=>o.classList.toggle("on",o===b))}check();save()});
+ const check=()=>{const ok=p.nome.trim()&&p.loja.trim()&&p.tipo&&p.modelo&&p.situacao;bN.disabled=!ok;bN.textContent=ok?"Próxima":"Preencha nome, loja e as escolhas";};
+ check();
+}
+function pergunta(q){
+ const a=areaOf(q.a),cur=S.r[q.i];
+ const main=q.o.filter(o=>o[0]!==NS&&!o[0].startsWith(NA)),sec=q.o.filter(o=>o[0]===NS||o[0].startsWith(NA));
+ const btn=(o,k,c)=>`<button type="button" class="opt ${c||""} ${cur===k?"on":""}" data-k="${k}"><span class="dot"></span>${esc(o[0])}</button>`;
+ app.innerHTML=`<span class="area">${a.nome}</span><h2>${esc(q.q)}</h2>${q.d?`<div class="dica">${esc(q.d)}</div>`:'<div style="height:12px"></div>'}
+ <div class="opts">${main.map(o=>btn(o,q.o.indexOf(o))).join("")}${sec.map(o=>btn(o,q.o.indexOf(o),"sec")).join("")}</div>`;
+ app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{S.r[q.i]=+b.dataset.k;app.querySelectorAll(".opt").forEach(o=>o.classList.toggle("on",o===b));bN.disabled=false;save();setTimeout(()=>{if(S.r[q.i]===+b.dataset.k&&S.step===q.i+2){S.step++;render()}},280)});
+ bN.disabled=cur===undefined;bN.textContent="Próxima";
+}
+function abertas(){
+ app.innerHTML=`<span class="area">Para terminar</span><h2>Agora, com as suas palavras</h2>
+ <label class="f" for="prob">Qual é hoje o maior problema da sua loja?</label><textarea id="prob" placeholder="Ex.: no fim de semana a fila embola e os clientes desistem">${esc(S.ab.prob)}</textarea>
+ <label class="f" for="quer">O que você mais quer resolver com a mentoria?</label><textarea id="quer">${esc(S.ab.quer)}</textarea>
+ <label class="f">Fotos da loja (opcional, mas ajuda muito)</label><p class="dica" style="margin-top:0">As fotos entram no PDF do seu diagnóstico. Toque em cada quadro para escolher a foto.</p>
+ <div class="fotos">${FOTOS.map((f,i)=>`<label class="foto" for="f${i}">${fotos[i]?`<img src="${fotos[i]}" alt="${f}">`:"+"}<span>${f}</span><input type="file" accept="image/*" id="f${i}" data-i="${i}"></label>`).join("")}</div>`;
+ ["prob","quer"].forEach(k=>document.getElementById(k).oninput=e=>{S.ab[k]=e.target.value;save()});
+ app.querySelectorAll(".foto input").forEach(inp=>inp.onchange=()=>{const f=inp.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);fotos[inp.dataset.i]=c.toDataURL("image/jpeg",.75);abertas()};im.src=rd.result};rd.readAsDataURL(f)});
+ bN.disabled=false;bN.textContent="Ver minha mandala";
+}
+function notas(){
+ return AREAS.map(a=>{const qs=Q.filter(q=>q.a===a.id);let s=0,n=0,ns=0;
+  qs.forEach(q=>{const k=S.r[q.i];if(k===undefined)return;const v=q.o[k][1];if(v===null)return;if(v==="ns"){ns++;s+=30;n++}else{s+=v;n++}});
+  const nota=n?Math.round(s/n):null;const st=nota===null?"na":nota>=75?"bom":nota>=50?"aten":"crit";return{...a,nota,st,ns}});
+}
+const ST={crit:["Crítico","--crit","Precisa de ação logo: é aqui que a loja mais perde vendas ou conforto."],aten:["Precisa de atenção","--aten","Funciona, mas tem ajustes que fazem diferença."],bom:["Bom","--bom","Está no caminho certo. Vamos só manter e refinar."],na:["Sem dados","--mut","Não se aplica à sua loja."]};
+const probe=document.createElement("i");probe.style.display="none";document.body.appendChild(probe);
+const col=v=>{probe.style.color=`var(${v})`;return getComputedStyle(probe).color||"#888"};
+function mandala(svg,N){
+ const W=svg.clientWidth||480,c=W/2,R=W*0.30,r0=W*0.085,lab=W*0.345,n=N.length,fs=W<420?10.5:13;
+ const pt=(r,a)=>[c+r*Math.cos(a),c+r*Math.sin(a)];
+ const arc=(r1,r2,a1,a2)=>{const[x1,y1]=pt(r2,a1),[x2,y2]=pt(r2,a2),[x3,y3]=pt(r1,a2),[x4,y4]=pt(r1,a1);return`M${x1} ${y1}A${r2} ${r2} 0 0 1 ${x2} ${y2}L${x3} ${y3}A${r1} ${r1} 0 0 0 ${x4} ${y4}Z`};
+ const rr=v=>r0+(R-r0)*v/100;let h="";
+ [[100,"--bomT"],[75,"--atenT"],[50,"--critT"]].forEach(z=>h+=`<circle cx="${c}" cy="${c}" r="${rr(z[0])}" fill="${col(z[1])}"/>`);
+ N.forEach((a,i)=>{const a1=-Math.PI/2+i*2*Math.PI/n+0.025,a2=a1+2*Math.PI/n-0.05;
+  if(a.nota!==null)h+=`<path d="${arc(r0,rr(Math.max(a.nota,6)),a1,a2)}" fill="${col(ST[a.st][1])}" stroke="${col("--card")}" stroke-width="2"/>`;
+  const am=(a1+a2)/2,[lx,ly]=pt(lab,am),anc=Math.abs(Math.cos(am))<0.3?"middle":Math.cos(am)>0?"start":"end";
+  const words=a.nome.split(" "),lines=[];let l="";words.forEach(w=>{if((l+" "+w).trim().length>(W<420?11:14)){lines.push(l.trim());l=w}else l+=" "+w});lines.push(l.trim());
+  const y0=ly-(lines.length-1)*fs*0.6;
+  h+=`<text x="${lx}" y="${y0}" text-anchor="${anc}" font-size="${fs}" font-family="Nunito Sans,Arial,sans-serif" font-weight="700" fill="${col("--ink")}">${lines.map((t,j)=>`<tspan x="${lx}" dy="${j?fs*1.15:0}">${esc(t)}</tspan>`).join("")}<tspan x="${lx}" dy="${fs*1.25}" fill="${col(ST[a.st][1])}">${a.nota===null?"—":a.nota+"%"}</tspan></text>`;});
+ [50,75,100].forEach(v=>h+=`<circle cx="${c}" cy="${c}" r="${rr(v)}" fill="none" stroke="${col("--card")}" stroke-width="1.5" stroke-dasharray="3 4"/>`);
+ const val=N.filter(a=>a.nota!==null),g=val.length?Math.round(val.reduce((s,a)=>s+a.nota,0)/val.length):0;
+ h+=`<circle cx="${c}" cy="${c}" r="${r0-3}" fill="#4a1f5c"/><text x="${c}" y="${c+fs*0.2}" text-anchor="middle" font-family="Poppins,Arial,sans-serif" font-weight="700" font-size="${fs*1.7}" fill="#fff">${g}%</text><text x="${c}" y="${c+fs*1.4}" text-anchor="middle" font-size="${fs*0.8}" fill="#fff">geral</text>`;
+ svg.setAttribute("viewBox",`0 0 ${W} ${W}`);svg.innerHTML=h;
+}
+function resultado(){
+ const N=notas(),p=S.p,ord=N.filter(a=>a.nota!==null).sort((a,b)=>a.nota-b.nota),cnt=k=>N.filter(a=>a.st===k).length;
+ const nsList=Q.filter(q=>S.r[q.i]!==undefined&&q.o[S.r[q.i]][1]==="ns");
+ app.innerHTML=`<div class="printhead"><img src="${LOGO}" alt=""><div><b style="font-family:Poppins;font-size:18px">Diagnóstico inicial · Mentoria L.O.J.A. 360º</b><br>${esc(p.nome)} · ${esc(p.loja)} · ${esc(p.cidade)}</div></div>
+ <h1>A mandala da ${esc(p.loja||"sua loja")}</h1>
+ <p class="lead">${cnt("crit")?`${cnt("crit")} ${cnt("crit")>1?"áreas estão críticas":"área está crítica"}, `:""}${cnt("aten")} ${cnt("aten")===1?"precisa":"precisam"} de atenção e ${cnt("bom")} ${cnt("bom")===1?"está boa":"estão boas"}. Quanto mais cheia a pétala, melhor está a área.</p>
+ <div class="fig"><svg id="mand" role="img" aria-label="Mandala com a nota de cada área da loja"></svg></div>
+ <div class="leg"><span><i style="background:var(--crit)"></i>Crítico (abaixo de 50%)</span><span><i style="background:var(--aten)"></i>Atenção (50 a 74%)</span><span><i style="background:var(--bom)"></i>Bom (75% ou mais)</span></div>
+ <div class="prio"><h3 style="color:#fff">Por onde vamos começar</h3>Estas são as 3 áreas mais urgentes da sua loja. Vamos olhar para elas com prioridade nos encontros:<ol>${ord.slice(0,3).map(a=>`<li><b>${a.nome}</b> (${a.nota}%) · ${a.enc}</li>`).join("")}</ol></div>
+ <h2>Área por área</h2><div class="cards">${[...ord,...N.filter(a=>a.nota===null)].map(a=>`<div class="ac" style="--c:var(${ST[a.st][1]})"><div class="h"><div><span class="tag">${ST[a.st][0]}</span><h3 style="margin:2px 0 0">${a.nome}</h3></div><span class="n">${a.nota===null?"—":a.nota+"%"}</span></div><p>${ST[a.st][2]} ${a.enc}.${a.ns?` Você marcou "não sei" em ${a.ns} ${a.ns>1?"perguntas":"pergunta"}: vamos conferir juntos.`:""}</p></div>`).join("")}</div>
+ ${nsList.length?`<h2 style="margin-top:26px">Para conferir juntos</h2><div class="resp">${nsList.map(q=>`<div>${esc(q.q)}</div>`).join("")}</div>`:""}
+ <div class="acts noprint">
+  <div class="envio"><h2 style="margin:0 0 6px">Último passo: salve e envie no grupo</h2>
+   <p style="margin:0 0 14px;color:var(--mut)">Salve o seu diagnóstico em PDF e mande no <b>grupo da mentoria no WhatsApp</b>. É com ele que vamos conduzir os encontros juntos.</p>
+   <button class="btn full" id="pdf" type="button" style="width:100%">Salvar em PDF</button>
+   <div class="msg" id="msg"></div>
+   <div class="ajuda"><b>Não conseguiu?</b> Sem problema: tire prints (fotos da tela) da sua mandala e das prioridades e mande no grupo da mentoria. A gente te ajuda por lá.</div>
+  </div>
+ </div>
+ <details style="margin-top:26px" open><summary style="font-weight:700;cursor:pointer">Todas as respostas</summary>
+ <div class="resp"><div><b>Perfil</b>${esc([p.tipo,p.modelo,p.situacao,p.tam,p.func&&p.func+" funcionário(s) por turno",p.prod.join(", "),p.wpp].filter(Boolean).join(" · "))}</div>
+ ${AREAS.map(a=>`<div><b style="color:var(--roxo2)">${a.nome}</b></div>`+Q.filter(q=>q.a===a.id).map(q=>`<div><b>${esc(q.q)}</b>${S.r[q.i]===undefined?"—":esc(q.o[S.r[q.i]][0])}</div>`).join("")).join("")}
+ <div><b>Maior problema hoje</b>${esc(S.ab.prob)||"—"}</div><div><b>O que quer resolver na mentoria</b>${esc(S.ab.quer)||"—"}</div></div></details>
+ ${Object.keys(fotos).length?`<h2 style="margin-top:26px">Fotos da loja</h2><div class="fotos">${Object.keys(fotos).map(i=>`<figure style="margin:0"><img src="${fotos[i]}" style="width:100%;border-radius:10px" alt="${FOTOS[i]}"><figcaption style="font-size:13px">${FOTOS[i]}</figcaption></figure>`).join("")}</div>`:""}`;
+ const svg=document.getElementById("mand");const ro=new ResizeObserver(()=>mandala(svg,N));ro.observe(svg);
+ try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>mandala(svg,N))}catch(e){}
+ const mo=new MutationObserver(()=>mandala(svg,N));mo.observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+ const msg=t=>document.getElementById("msg").textContent=t;
+ document.getElementById("pdf").onclick=()=>{try{window.print();msg("Escolha \"Salvar como PDF\" e depois envie o arquivo no grupo da mentoria.")}catch(e){msg("O PDF não abriu neste aparelho. Veja abaixo o que fazer.")}};
+}
+bN.onclick=()=>{if(bN.disabled)return;S.step++;render()};
+bB.onclick=()=>{S.step=Math.max(0,S.step-1);render()};
+render();
+}
+</script>
+</body>
+</html>
